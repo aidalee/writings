@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<style>
+  #drag {
+    padding: 10px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+
+  #drag > div {
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #drop {
+    margin-top: 20px;
+    padding: 50px;
+    border: 2px dashed black;
+  }
+</style>
+
+<div id="drag">
+  <div data-id="text" draggable="true" >文本</div>
+  <div draggable="true" >图片</div>
+  <div draggable="true"  >容器</div>
+  <div draggable="true" >富文本</div>
+  <div draggable="true" >标题</div>
+</div>
+<div id="drop" dropzone="true" >
+  将拖动元素放到这里
+</div>
+
+<script>
+  const drag = document.getElementById('drag');
+  const drop = document.getElementById('drop');
+
+  drag.addEventListener('dragstart', function(event) {
+    console.log(event, 'event')
+    // 设置传输的数据类型和值
+    event.dataTransfer.setData('text/plain', event.target.outerText+'输入');
+  });
+
+  drop.addEventListener('dragover', function(event) {
+    // 防止默认行为，以允许拖动元素放置到目标元素上
+    console.log(0)
+    event.preventDefault();
+    // 添加样式以提示用户
+    drop.classList.add('hover');
+  });
+
+  drop.addEventListener('dragleave', function(event) {
+    // 移除之前添加的样式
+    console.log(12)
+    drop.classList.remove('hover');
+  });
+
+  drop.addEventListener('drop', function(event) {
+    // 防止默认行为
+    event.preventDefault();
+    // 移除样式
+    drop.classList.remove('hover');
+    // 获取传输的数据
+    const data = event.dataTransfer.getData('text/plain');
+    // 在指定区域中插入拖动的元素
+    drop.innerHTML = data;
+  });
+</script>
+
+</body>
+</html>

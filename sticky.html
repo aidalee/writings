@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .wrap {
+      height: 2000px;
+      width: 100%;
+      background-color: skyblue;
+    }
+ 
+    .box1 {
+      width: 80%;
+      height: 100px;
+      background-color: teal;
+      margin: 0 auto;
+    }
+ 
+    .box2 {
+      width: 200px;
+      height: 300px;
+      background-color: pink;
+      top: 0;
+      margin: 0 auto;
+      overflow: auto;
+    }
+ 
+    .sticky {
+      position: sticky;
+      top: 0px;
+    }
+
+    .box3 {
+      height: 200px;
+      width: 100%;
+      margin: 10px 0;
+      background-color: bisque;
+      box-sizing: border-box;
+    }
+
+  </style>
+</head>
+ 
+<body>
+  <div class="wrap">
+    <div class="box1"></div>
+    <div class="box2 sticky">
+      <div class="box3"></div>
+      <div class="box3"></div>
+      <div class="box3"></div>
+      <div class="box3"></div>
+      <div class="box3"></div>
+      <div class="box3"></div>
+      <div class="box3"></div>
+      <div class="box3"></div>
+    </div>
+    <div class="box1"></div>
+  </div>
+</body>
+ 
+</html>
