@@ -2,7 +2,7 @@
  * @Author: please
  * @Date: 2023-08-25 10:53:31
  * @LastEditors: please
- * @LastEditTime: 2023-08-25 17:01:09
+ * @LastEditTime: 2023-08-25 17:10:29
  * @Description: 请填写简介
 -->
 ## 先创建一个项目
@@ -182,7 +182,7 @@ pnpm create vite my-vue-app --template vue
   ```
 ## 本地测试
   1. `npm link` 生成软链接
-  2. 命令行执行 `lemon ui`,出现以下页面就👌
+  2. 命令行执行 `lemon ui`,出现以下就👌
   ```shell
   ➜  lemon-box lemon ui,
   ? 请选择部门 云平台
@@ -192,4 +192,6 @@ pnpm create vite my-vue-app --template vue
 
 其它更多丰富的功能在此基础上进行扩展就行
 
-[参考](https://juejin.cn/post/7178666619135066170?searchId=20230825133000212A52F60C105F815FD7)
+## 参考
+
+[前端亮点 or 提效？开发一款 Node CLI 终端工具！](https://juejin.cn/post/7178666619135066170?searchId=20230825133000212A52F60C105F815FD7)
