@@ -28,41 +28,41 @@
 > 元组：限定类型的数组，方便把不同类型的数据放入，let user:[string,number]=['viking',20]
 > Interface 接口：对对象的形状（shape）进行描述；对类（class）进行抽象；Duck Typing(鸭子类型)
 
-```
+```js
 interface Person {
     readonly id: number,
     name:string;
     age:number;
     gender?:'男'
 }
-// 用Person约束viking的形状
-let viking:Person={
+// 用Person约束viki的形状
+let viki:Person={
     id:123,
-    name:'viking',
+    name:'viki',
     age:12
 }
 ```
 
 > 函数
 
-```
-function add(x:number,y:number):number{return x+y}
-const add = function(x:number,y:number):number{ // 此时add也有了类型
-    // 函数体内容
+```js
+function add(x:number,y:number):number { return x+y }
+const add = function(x:number,y:number):number { // 此时add也有了类型
+  // 函数体内容
 }
-const add2:(x:number,y:number)=>number=add // 可正确赋值，说明add2和add是相同的类型
+const add2:(x:number,y:number) => number = add // 可正确赋值，说明add2和add是相同的类型
 ```
 
-> 类型推断（论）：ts 会在没有给类型是推断出一个类型
+> 类型推断（论）：ts 会在没有给类型时推断出一个类型
 
-```
+```js
 let str = 'str'
-str=123 // 语法报错，上面已经将str推断为string类型
+str = 123 // 语法报错，上面已经将str推断为string类型
 ```
 
 > 枚举 enums
 
-```
+```js
 enum Direction {
     Up,
     Down,
@@ -79,15 +79,15 @@ enum Direction {
 }
 enum Direction {
     Up='UP',
-    Down='DOWN', // 11
-    Left='LEFT', // 12
-    Right='RIGHT' // 13
+    Down='DOWN',
+    Left='LEFT',
+    Right='RIGHT'
 }
 ```
 
 > 泛型，定义的时候不知道类型，使用的时候再确定类型
 
-```
+```js
 // 函数在调用的时候传入的是什么类型，T就是什么类型，T是占位符，取值任意
 function echo<T>(arg:T):T{
     return arg
@@ -102,7 +102,7 @@ const result = swap(['string',123])
 
 > 约束泛型,给泛型约束一个范围
 
-```
+```js
 function echoWithArr<T>(arg:T):T{
     console.log(arg.length) // 会报错，不能用length
 }
@@ -168,7 +168,7 @@ queue2.push('str')
 
 > 接口中的泛型使用
 
-```
+```js
 // 定义接口时不确定接口中的字段都是什么类型，使用时传入的是什么类型就是什么类型
 interface KeyPair<T,U> {
     key:T;
@@ -181,7 +181,7 @@ let kp2:KeyPair<string,number>={key:'str',value:123}
 
 > 还可以用泛型定义数组
 
-```
+```js
 // 定义数值数组的方式一：
 let arr:number[]=[1,2,3]
 // 泛型的方式
@@ -192,7 +192,7 @@ let arrTwo:Array<number>=[1,2,3]
 
 # 用 interface 约束类的实现，抽象类的属性和方法
 
-```
+```js
 interface Radio {
     switchRadio():void;
 }
@@ -225,7 +225,7 @@ class Cellphone implements RadioWithBattery{
 
 # 用接口定义(描述)一个函数的类型
 
-```
+```js
 interface IPlus{
     (a:number,b:number):number // 这里不是在描述组件属性不用箭头
 }
@@ -251,7 +251,7 @@ const b:IPlus<string> = connect
 
 > 类型别名
 
-```
+```js
 function sum(x:number,y:number):number{
     return x+y
 }
@@ -268,7 +268,7 @@ const sum2:PlusType = sum
 
 - 类型别名的常用场景是使用联合类型时
 
-```
+```js
 // 假如函数接收的参数可能是string类型也可能是个函数类型，如果是string返回这个参数，如果是函数类型返回函数执行的结果
 type NameResolve = ()=>string
 type NameOrResolver = string | NameResolve
