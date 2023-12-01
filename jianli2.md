@@ -2,7 +2,7 @@
  * @Author: please
  * @Date: 2023-11-16 13:13:38
  * @LastEditors: please
- * @LastEditTime: 2023-11-29 10:40:53
+ * @LastEditTime: 2023-12-01 17:32:40
  * @Description: 请填写简介
 -->
 - 基本信息：
@@ -173,4 +173,180 @@ https://juejin.cn/column/7139898687873875981 vue3专栏
 https://juejin.cn/post/7143358534481575973 【ref、reactive区别】
 reactive: 对象数组集合才有响应性作用，解构出来的属性也会失去响应性
 ref:适用于任何数据类型
+
+
+小程序功能汇总：
+- 微信授权手机号一键登录
+- 手机号验证码登录
+- 图片、视频上传与预览
+- 新建与编辑收货地址
+- wx.scanCode调起客户端扫码界面进行扫码查看技术资料
+- wx.chooseMedia 拍摄或从手机相册中选择图片或视频
+- 基本表单、级联表单、时间选择、wx.chooseLocation打开地图选择位置、语音发送故障描述、canvas用户手动签名
+- 轮播图、滑动导航
+- 安全无忧包购买 实名信息、开票信息填写后调接口（传入订单id参数）判断是否已完成e签宝认证，（完成了认证则判断是否已签署合同，已签署合同无需创建合同，未签署，则创建合同，并进入订单详情页查看pdf版本合同详情并进行支付）；没认证则进入第三方的e签宝h5认证页面进行认证，经过一系列认证签署（签署由e签宝平台签署，前端调接口拿结果就行）操作后回到起始页面，在起始页面加载生命周期判断是否已签合同，签过合同的直接到订单详情页面进行订单确认并支付功能
+e签宝是一家电子签名服务提供商，其产品包括基础的电子合同服务、身份认证、数字证书、电子签名、时间戳、存证保全和法律支持等服务。
+- 风险无忧、修车无忧、轮胎无忧产品询价业务功能迭代
+- @lucky-canvas/mini幸运抽奖
+- 安币兑换红包到微信钱包
+- mp-html渲染富文本内容
+- map组件地图绘制、行驶路线绘制、行驶轨迹回放
+```html
+<map   id="mymap" class="map" longitude="{{mapCenter.longitude}}" latitude="{{mapCenter.latitude}}" scale="{{scale}}" markers="{{markers}}" polyline="{{polylineSettings}}" include-points="polygons" setting="{{mapSettings}}" bindregionchange="updatedMap" max-scale="14">
+  <cover-view class="time-map" >{{showMessage}}</cover-view>
+</map>
+```
+- "plugin://echarts/chart" 插件绘制图表
+- 合理运用分包策略(独立分包、分包预下载)、数据渲染策略、静态资源优化策略优化小程序体积和渲染速度
+- 安全出行模块-安全驾驶激励-前往安全驾驶KPI：根据选择的时间段显示车辆行驶路线，并可以进行行驶轨迹回放。
+```html
+  <map id="mymap" class="map" longitude="{{mapCenter.longitude}}" latitude="{{mapCenter.latitude}}" scale="{{scale}}" markers="{{markers}}" polyline="{{polylineSettings}}" include-points="polygons" setting="{{mapSettings}}" bindregionchange="updatedMap" max-scale="14">
+    <cover-view class="time-map" >{{showMessage}}</cover-view>
+  </map>
+```
+```js
+  that.data.trackTimer = setInterval(function () {
+    const point = points[index];
+    that.data.lastPoint = point;
+    //console.log("最后点:",that.data.lastPoint);
+    // console.log(point,that.getCurrentTime());
+    that.mapCtx.translateMarker({
+      markerId:1,
+      autoRotate: false,
+      moveWithRotate: true,
+      duration: duration,
+      destination: point,
+      rotate: point.gpsBearing,
+      fail: function (res) {
+        console.log(res);
+      },
+      success: function () {
+        that.setData({
+          playIndex: index,
+          showMessage: point.addtime,
+          'markers[0].latitude': point.latitude || 23.099994,
+          'markers[0].longitude': point.longitude || 113.324520,
+        })
+        that.mapCtx.getRegion({
+          success: function (e) {
+            if (that.checkOutRegion(point, e.southwest, e.northeast)) {
+              that.setData({
+                mapCenter: point,
+              })
+            }
+          }
+        });
+        if (index + 1 >= points.length) {
+          that.stopTrack()
+        }
+        index++;
+      }
+    })
+
+  }, duration);
+```
+- 封装统一的图片上传到OSS工具函数
+- padding-bottom: env(safe-area-inset-bottom);解决ios底部小黑条问题
+- 图片长按弹出菜单
+<!-- <image src="{{groupQrcodeUrl}}"	show-menu-by-longpress="{{true}}"></image> -->
+- 小程序页面生成图片 wxml-to-canvas和wxml2canvas都有很大限制；建议内置h5并配合使用html2canvas
+<!-- https://developers.weixin.qq.com/community/develop/article/doc/00086865f24cd087f16cd13d756013 -->
+- 最新油耗分析：查看近期油耗诊断列表，点击每条数据进入详情。（邀请好友）页面链接分享好友或生成海报分享给好友 并邀请好友扫描海报二维码查看个人油耗报告。
+- canvas绘制基本海报，并设置保存按钮将canvas绘制的海报保存为图片存到本地
+<!-- 
+wx.canvasToTempFilePath
+把当前画布指定区域的内容导出生成指定大小的图片。在 draw() 回调里调用该方法才能保证图片导出成功。暂不支持离屏 canvas。
+ -->
+
+- 扫码查看安全日报
+- 加载多个视频的优化
+```html
+<view class="video-item" wx:for="{{videoList1}}" wx:key="index">
+  <van-icon custom-class="custom-play-icon" wx:if="{{_index1 != index}}" bindtap="videoPlay1" data-id="{{index}}" size="48rpx" name="{{playIcon}}" />
+  <image src="{{imageCoverList1[index]}}" wx:if="{{_index1 != index}}"   class="video-image"></image>
+  <video id="{{index}}" class="video" autoplay="{{true}}" direction="{{0}}" src="{{item}}" wx:if="{{_index1 == index}}" enable-play-gesture="{{true}}" show-fullscreen-btn="{{true}}" show-center-play-btn="{{false}}"></video>
+</view>
+```
+
+
+
+React后台管理系统功能汇总
+- https://i.soterea.cn/
+- vite、webpack打包工具
+- react-router-dom 配置路由
+- Antd和AntdProComponents UI组件实现页面登录鉴权和结构布局等界面展示与交互
+
+> react-router是一个通用组件，可以跨平台,内置通用组件和通用Hooks。
+> react-router-dom是在react-router基础上提供了Link和NavLink，而且依赖history库提供了两个浏览器端适用的BrowserRouter和HashRouter。一般都用的react-router-dom，一些常用的组件都封装好了。
+```js
+  import { useNavigate,useParams,useLocation } from 'react-router-dom' 
+  const navigate = useNavigate()
+  navigate('/order-check-list/detail', {
+    state: {
+      id: 0
+    }
+  })
+  let location = useLocation();
+
+  // 通过地址栏中的 home?key=value&key=value传递
+  const id = location.state ? location.state.id : '1'
+  const navigate = useNavigate()
+  navigate('/detail?key=value') //跳转方法
+  const location = useLocation()
+  location.search
+
+
+  export default function App() {
+    let element = useRoutes([
+      { path: "/", element: <Home /> },
+      {
+        path: "user",
+        element: <User />,
+        children: [
+          { path: ":id", element: <User2 /> },
+          { path: "user1", element: <User1 /> }
+        ]
+      },
+      { path: "*", element: <NotFound /> }
+    ]);
+    return <>
+        // 这里把上面使用hooks配置的全局路由在这里执行以下
+        { element }
+    </>
+  }
+```
+
+- react-pdf 封装pdf查看器组件
+- react-to-print封装Table数据列表打印功能
+- 结合Antd的Upload组件和API封装统一的Excel数据导入功能
+- (js-export-excel)库封装导出Excel的工具函数
+- 封装防抖搜索加载远程数据的Select下拉组件
+- 实现自定义hooks抽取Table列表的查询、重置、分页展示功能的通用逻辑，提升开发效率
+- 通过自定义Schema方式封装通用的搜索栏表单和信息录入表单
+- 借助ReactDOM.renderAPI综合运用React组件通信技巧封装实现命令式创建弹框组件，将弹框的显示隐藏、内容展现、确认保存数据等功能收敛在一个方法内，提高迭代速度
+- 根据设计稿封装多个图片上传组件
+- 根据业务需求结合Antd的Tree组件封装多场景可复用的Tree树形控件
+- 封装统一的图标组件，可以加载svg格式、图片格式等（传入阿里巴巴矢量图表库类名或图片的url,如果是url就用img标签，如果是类名用普通的i标签。阿里巴巴矢量图标要下载到本地）。方便多个场景下小图标的引入。
+- 使用百度地图插件react-bmapgl库提供的MapvglView、MapvglLayer、Polyline、Label封装个性化展示车辆聚合点和服务站聚合点的Map组件和绘制车辆行驶路线的组件
+```js
+  import { Map, MapvglView, MapvglLayer } from "react-bmapgl";
+  // 车辆的聚合点
+  const getCarContainer = useMemo(() => carMapvglView(mapCarData, clickMap),
+    [mapCarData.list, mapCarData.show]);
+
+  // 服务站的聚合点
+  const getServiceContainer = useMemo(() => serviceMapvglView(mapServiceData, clickMap, detailData),
+    [mapServiceData.list, mapServiceData.show, detailData])
+
+  
+
+```
+
+
+> 防抖（debounce）的原理是，当持续触发事件时，debounce 会合并事件且不会去立刻执行，而是等待一定的时间再执行。如果在这段时间内又触发了事件，则会重新计算延迟时间。
+
+> 而节流（throttle）的原理则是，无论触发事件有多频繁，throttle 都会保证在一定时间内只执行一次事件处理函数。
+
+小安象管理后台
+- braft-editor
 
