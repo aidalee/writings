@@ -2,7 +2,7 @@
  * @Author: please
  * @Date: 2023-11-16 13:13:38
  * @LastEditors: please
- * @LastEditTime: 2023-12-02 18:57:34
+ * @LastEditTime: 2023-12-04 17:18:28
  * @Description: 请填写简介
 -->
 - 基本信息：
@@ -96,7 +96,8 @@
 - 使用React技术栈配合Echarts和react-bmapgl插件独立完成数据看板中安装完工率、安装及时率、维修完工率、维修及时率等统计数据的图表渲染；数据大屏地图打点展示服务站位置与详情等功能
 - 独立封装数据列表批量导入导出、数据列表批量操作更改数据状态、操作按钮权限控制等功能
 - 独立封装通用的表单信息录入、文件上传下载、详情模块信息展示面板等组件与API
-
+- 角色权限控制
+  > 后端接口分别返回菜单列表，和能够操作的按钮列表，根据菜单列表渲染菜单。封装权限按钮，传入props为按钮的唯一标识，根据接口返回的按钮唯一标识做比对，对上了就展示，对不上就不展示。
 2. 所托-小安象小程序平台
   - 严选商城、订单列表、
   - 上拉加载分页数据
@@ -347,7 +348,57 @@ React后台管理系统功能汇总
 > 防抖（debounce）的原理是，当持续触发事件时，debounce 会合并事件且不会去立刻执行，而是等待一定的时间再执行。如果在这段时间内又触发了事件，则会重新计算延迟时间。
 
 > 而节流（throttle）的原理则是，无论触发事件有多频繁，throttle 都会保证在一定时间内只执行一次事件处理函数。
+- 自定义useTableList、useRefs、useDebounce等自定义hooks
+```js
+import { useState, useEffect } from 'react';
 
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+```
+```js
+import React from 'react';
+import useDebounce from './useDebounce';
+
+function SearchInput() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  return (
+    <input
+      type="text"
+      value={debouncedSearchTerm}
+      onChange={handleChange}
+      placeholder="搜索..."
+    />
+  );
+}
+
+```
+- 通过时间分片的方式，分次渲染海量数据
+> 第一步：计算时间片，首先用 eachRenderNum 代表一次渲染多少个，那么除以总数据就能得到渲染多少次。
+> 第二步：开始渲染数据，通过 index>times 判断渲染完成，如果没有渲染完成，那么通过 requestIdleCallback 代替 setTimeout 浏览器空闲执行下一帧渲染。
+> 第三步：通过 renderList 把已经渲染的 element 缓存起来，渲染控制章节讲过，这种方式可以直接跳过下一次的渲染。实际每一次渲染的数量仅仅为 demo 中设置的 500 个。
+[https://juejin.cn/book/6945998773818490884/section/6959872008326742028](参考代码)
+[https://juejin.cn/post/7145488193314357255?searchId=202312041716590B9BE5DF05210147A87B](渲染优化)
 小安象管理后台
-- braft-editor
+- 使用React技术栈完成小安运营管理系统中的精选文章管理、热门视频管理、商城管理、订单管理、角色权限管理等模块
+> 角色权限控制中，菜单树结构由后端返回。在菜单树中勾选相关的权限，并调接口保存。登录进入系统时调用该角色具有的菜单并渲染
 
