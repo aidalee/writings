@@ -2,7 +2,7 @@
  * @Author: please
  * @Date: 2023-11-16 13:13:38
  * @LastEditors: please
- * @LastEditTime: 2023-12-04 17:18:28
+ * @LastEditTime: 2023-12-05 13:52:00
  * @Description: 请填写简介
 -->
 - 基本信息：
@@ -81,6 +81,11 @@
   - 综合运用vue3技术栈与h5页面开发适配技术
   - 使用jsBridge技术结合对JockeyJS的封装实现与原生android、ios应用的通信
   - 根据研发需求与设计稿，独立设计并封装业务组件库soda-ui,抽象出多场景可复用的业务逻辑与UI设计，供团队快速迭代
+  - 运用移动端页面布局技巧并借助autoprefixer、postcss-px-to-viewport插件配置精确还原h5设计稿和交互
+  - 使用vue-router实现页面路由、vantUI实现基本UI展现、pinia进行全局数据存储、emit事件通信等实现基本页面功能
+  - 综合运用Vue3技术栈vite打包技术、组件通信技巧、实现车辆维修、保养、首检、定检流程的研发，
+  - 封装不同类型（BOM物料、常用无聊、全库搜索）物料检索并添加组件、已选物料清单展示组件
+  - 
 
 
 - 安行车服小程序 司机 发起报修
