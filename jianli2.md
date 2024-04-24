@@ -2,7 +2,7 @@
  * @Author: please
  * @Date: 2023-11-16 13:13:38
  * @LastEditors: please
- * @LastEditTime: 2023-12-02 18:57:34
+ * @LastEditTime: 2023-12-02 21:04:06
  * @Description: 请填写简介
 -->
 - 基本信息：
@@ -192,6 +192,16 @@ e签宝是一家电子签名服务提供商，其产品包括基础的电子合�
 - 安币兑换红包到微信钱包
 - mp-html渲染富文本内容
 - map组件地图绘制、行驶路线绘制、行驶轨迹回放
+- this.audioCtx = wx.createWebAudioContext() 语音对讲
+- 亲情在途互动
+  1. 可视行车情况及驾驶状态
+  2. 家属在驾驶途中产生疲劳驾驶、分神驾驶等情景时，将对您及时提示
+  3. 可直接对车载设备进行语音消息下发，避免家属驾驶途中使用手机的风险
+  > wx.getSetting() 、wx.authorize()获取语音授权，wx.getRecorderManager()获取录音实例，录音结束后获取本地录音文件并调接口传给后端。
+  > wx.connectSocket wx.getRecorderManager()实时语音对讲
+  > wx.createLivePlayerContext() 实时视频观看
+  4. 当您使用本功能时，车载设备会进行人脸识别，如您的家属当前未驾驶该车辆时，您无法查看该车辆的行车视频及语音功能
+
 ```html
 <map   id="mymap" class="map" longitude="{{mapCenter.longitude}}" latitude="{{mapCenter.latitude}}" scale="{{scale}}" markers="{{markers}}" polyline="{{polylineSettings}}" include-points="polygons" setting="{{mapSettings}}" bindregionchange="updatedMap" max-scale="14">
   <cover-view class="time-map" >{{showMessage}}</cover-view>
@@ -276,7 +286,7 @@ React后台管理系统功能汇总
 - vite、webpack打包工具
 - react-router-dom 配置路由
 - Antd和AntdProComponents UI组件实现页面登录鉴权和结构布局等界面展示与交互
-
+- 安行车服 数据中心数据统计
 > react-router是一个通用组件，可以跨平台,内置通用组件和通用Hooks。
 > react-router-dom是在react-router基础上提供了Link和NavLink，而且依赖history库提供了两个浏览器端适用的BrowserRouter和HashRouter。一般都用的react-router-dom，一些常用的组件都封装好了。
 ```js
